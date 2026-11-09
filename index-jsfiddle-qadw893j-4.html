@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html>
+
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>JSFiddle qadw893j</title>
+
+  <style>
+    /* =================================
+   リセット
+================================= */
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 20px;
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+  font-family: 'Segoe UI', 'Yu Gothic', sans-serif;
+  background: #f4f7fb;
+  color: #333;
+  line-height: 1.6;
+}
+
+/* =================================
+   タイトル
+================================= */
+
+h1 {
+  text-align: center;
+  color: #2563eb;
+  margin-bottom: 30px;
+}
+
+h2 {
+  margin-top: 0;
+  color: #1e40af;
+}
+
+h3 {
+  color: #374151;
+}
+
+/* =================================
+   画面
+================================= */
+
+#home-screen,
+#settings-screen,
+#quiz-screen,
+#result-screen,
+#finish-screen,
+#records-screen {
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  margin-top: 20px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+/* =================================
+   入力欄
+================================= */
+
+input[type='text'],
+input[type='number'] {
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  margin-top: 5px;
+}
+
+input[type='checkbox'] {
+  transform: scale(1.15);
+  margin-right: 6px;
+}
+
+/* =================================
+   回答欄
+================================= */
+
+#answer {
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+/* =================================
+   ボタン
+================================= */
+
+button {
+  width: 100%;
+  border: none;
+  border-radius: 10px;
+  padding: 14px;
+  font-size: 16px;
+  font-weight: bold;
+  color: white;
+  background: #2563eb;
+  cursor: pointer;
+  transition:
+    transform 0.15s,
+    background 0.15s;
+}
+
+button:hover {
+  background: #1d4ed8;
+}
+
+button:active {
+  transform: scale(0.98);
+}
+
+/* =================================
+   リンク
+================================= */
+
+a {
+  color: #2563eb;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* =================================
+   問題表示
+================================= */
+
+.question-text {
+  text-align: center;
+  font-size: 40px;
+  font-weight: bold;
+  color: #1e3a8a;
+  background: #eff6ff;
+  border-radius: 16px;
+  padding: 40px 20px;
+  margin: 20px 0;
+}
+
+/* =================================
+   問題情報
+================================= */
+
+#questionType {
+  text-align: center;
+  font-weight: bold;
+  color: #6b7280;
+}
+
+#quizProgress {
+  color: #ef4444;
+  font-weight: bold;
+}
+
+/* =================================
+   採点結果
+================================= */
+
+#resultText {
+  text-align: center;
+  font-size: 32px;
+  font-weight: bold;
+}
+
+#yourAnswer,
+#correctAnswer,
+#resultQuestion {
+  background: #f8fafc;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 12px;
+}
+
+/* =================================
+   終了画面
+================================= */
+
+#finish-screen {
+  text-align: center;
+}
+
+#finishCorrect {
+  color: #16a34a;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+#finishRate {
+  color: #2563eb;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+/* =================================
+   成績履歴
+================================= */
+
+.record-item {
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 12px;
+  margin-bottom: 12px;
+}
+
+.record-date {
+  font-size: 12px;
+  color: #6b7280;
+  margin-bottom: 5px;
+}
+
+.record-score {
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.record-rate {
+  color: #2563eb;
+  font-weight: bold;
+}
+
+/* =================================
+   詳細成績
+================================= */
+
+#detailStats {
+  background: #f8fafc;
+  border-radius: 10px;
+  padding: 15px;
+  margin-top: 15px;
+}
+
+/* =================================
+   区切り線
+================================= */
+
+hr {
+  border: none;
+  border-top: 1px solid #e5e7eb;
+  margin: 20px 0;
+}
+
+/* =================================
+   スマホ対応
+================================= */
+
+@media (max-width: 600px) {
+  body {
+    padding: 10px;
+  }
+
+  .question-text {
+    font-size: 28px;
+    padding: 25px 10px;
+  }
+
+  button {
+    font-size: 15px;
+  }
+}
+
+  </style>
+
+  
+</head>
+<body>
+  <!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>英単語フラッシュカード</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <h1>英単語フラッシュカード</h1>
+
+    <!-- HOME -->
+    <div id="home-screen">
+      <h2>HOME</h2>
+
+      <label for="username">ユーザー名</label>
+      <input type="text" id="username" placeholder="ユーザー名を入力" />
+
+      <br /><br />
+
+      <button id="startQuizButton">📖 問題を解く</button>
+      <br /><br />
+      <button id="recordsButton">🏆 成績を見る</button>
+      <br /><br />
+      <button id="refreshWordsButton">🔄 単語を更新</button>
+      <br /><br />
+
+      <a
+        href="https://docs.google.com/spreadsheets/d/1_UCNzYdCYJDYo31ldJA6tkr2E8reKeZ1RhVFVf3ErGA/edit"
+        target="_blank"
+      >
+        📊 単語データベースを開く
+      </a>
+
+      <hr />
+
+      <h3>現在の統計</h3>
+      <p>読み込み単語数：<span id="wordCount">0</span></p>
+      <p>総テスト回数：<span id="totalTests">0</span></p>
+      <p>総問題数：<span id="totalQuestions">0</span></p>
+      <p>総正解数：<span id="totalCorrect">0</span></p>
+      <p>累計正答率：<span id="accuracy">0%</span></p>
+    </div>
+
+    <!-- 設定画面 -->
+    <div id="settings-screen" style="display: none">
+      <h2>出題設定</h2>
+
+      <label for="questionCount">問題数</label>
+      <input type="number" id="questionCount" value="10" min="1" />
+
+      <br /><br />
+
+      <label>
+        <input type="checkbox" id="randomOrder" checked />
+        ランダム出題
+      </label>
+
+      <hr />
+
+      <h3>品詞</h3>
+      <label><input type="checkbox" id="noun" /> 名詞</label><br />
+      <label><input type="checkbox" id="adjective" /> 形容詞</label><br />
+      <label><input type="checkbox" id="adverb" /> 副詞</label><br />
+      <label><input type="checkbox" id="other" /> その他</label>
+
+      <hr />
+
+      <h3>動詞</h3>
+      <label><input type="checkbox" id="present" /> 現在形</label><br />
+
+      <label><input type="checkbox" id="past" /> 過去形</label>
+      <div id="pastOptions" style="display: none">
+        <label
+          ><input type="checkbox" id="showPresentForPast" />
+          現在形を表示する</label
+        >
+      </div>
+
+      <label><input type="checkbox" id="participle" /> 過去分詞形</label>
+      <div id="participleOptions" style="display: none">
+        <label
+          ><input type="checkbox" id="showPresentForParticiple" />
+          現在形を表示する</label
+        >
+      </div>
+
+      <hr />
+
+      <h3>その他</h3>
+      <label><input type="checkbox" id="idiom" /> 熟語</label>
+
+      <br /><br />
+
+      <button id="beginQuizButton">テスト開始</button>
+      <br /><br />
+      <button onclick="goHome()">HOMEへ戻る</button>
+    </div>
+
+    <!-- 問題画面 -->
+    <div id="quiz-screen" style="display: none">
+      <h2>問題 <span id="quizProgress">1 / 10</span></h2>
+
+      <p id="questionType"></p>
+      <div id="question" class="question-text">読み込み中...</div>
+
+      <input type="text" id="answer" placeholder="答えを入力" />
+      <br /><br />
+
+      <button id="answerButton">回答する</button>
+    </div>
+
+    <!-- 採点結果 -->
+    <div id="result-screen" style="display: none">
+      <h2>採点結果</h2>
+
+      <div id="resultType"></div>
+      <br />
+      <div id="resultText"></div>
+
+      <hr />
+
+      <h3>問題</h3>
+      <div id="resultQuestion"></div>
+
+      <h3>あなたの回答</h3>
+      <div id="yourAnswer"></div>
+
+      <h3>正解</h3>
+      <div id="correctAnswer"></div>
+
+      <br /><br />
+
+      <button id="nextQuestionButton">次の問題</button>
+    </div>
+
+    <!-- 終了画面 -->
+    <div id="finish-screen" style="display: none">
+      <h2>テスト終了</h2>
+
+      <p>正解数：<span id="finishCorrect">0</span></p>
+      <p>問題数：<span id="finishTotal">0</span></p>
+      <p>正答率：<span id="finishRate">0%</span></p>
+
+      <br />
+
+      <button onclick="goHome()">HOMEへ戻る</button>
+    </div>
+
+    <!-- 成績画面 -->
+    <div id="records-screen" style="display: none">
+      <h2>成績</h2>
+
+      <p>ユーザー名：<span id="recordUserName"></span></p>
+      <p>総テスト回数：<span id="recordTotalTests"></span></p>
+      <p>総問題数：<span id="recordTotalQuestions"></span></p>
+      <p>総正解数：<span id="recordTotalCorrect"></span></p>
+      <p>累計正答率：<span id="recordAccuracy"></span></p>
+
+      <br />
+
+      <button id="toggleDetailButton">▼ 詳細を表示</button>
+
+      <div id="detailStats" style="display: none">
+        <hr />
+        <h3>品詞別正答率</h3>
+        <p>名詞：<span id="nounRate">0%</span></p>
+        <p>形容詞：<span id="adjectiveRate">0%</span></p>
+        <p>副詞：<span id="adverbRate">0%</span></p>
+        <p>その他：<span id="otherRate">0%</span></p>
+        <p>現在形：<span id="presentRate">0%</span></p>
+        <p>過去形：<span id="pastRate">0%</span></p>
+        <p>過去分詞形：<span id="participleRate">0%</span></p>
+        <p>熟語：<span id="idiomRate">0%</span></p>
+      </div>
+
+      <hr />
+
+      <h3>テスト履歴</h3>
+      <div id="recordList"></div>
+
+      <br />
+
+      <button onclick="goHome()">HOMEへ戻る</button>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
+
+
+  <script>
+    async function loadSheet(type, gid) {
+  // GoogleのCSV出力URL
+  const googleUrl = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&gid=${gid}`;
+  
+  // CORS回避用プロキシを経由させる
+  const url = `https://corsproxy.io/?${encodeURIComponent(googleUrl)}`;
+
+  try {
+    const response = await fetch(url);
+    if (!response.ok) {
+      console.error("読込失敗（通信エラー）", type);
+      return;
+    }
+
+    const csv = await response.text();
+    const rows = csv.trim().split(/\r?\n/);
+
+    for (let i = 1; i < rows.length; i++) {
+      if (!rows[i].trim()) continue;
+      const cols = parseCSVRow(rows[i]);
+
+      if (type === "過去形" || type === "過去分詞形") {
+        if (cols.length < 3) continue;
+
+        words.push({
+          type: type,
+          meaning: cols[0],
+          present: cols[1],
+          answer: cols[2],
+        });
+      } else {
+        if (cols.length < 2) continue;
+
+        words.push({
+          type: type,
+          question: cols[0],
+          answer: cols[1],
+        });
+      }
+    }
+  } catch (e) {
+    console.error("通信エラー", type, e);
+  }
+}
+  </script>
+</body>
+</html>
